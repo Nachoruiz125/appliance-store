@@ -8,7 +8,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8dialect
 
   datasource:
-    url: jdbc:mysql://localhost:3306/post_service?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/posts_service?serverTimezone=UTC
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
