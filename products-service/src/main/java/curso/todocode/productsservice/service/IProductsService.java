@@ -10,4 +10,6 @@ public interface IProductsService {
 
     public Products findProductByCode(Long code);
 
+    public Products createProduct(Products product);
+
 }
