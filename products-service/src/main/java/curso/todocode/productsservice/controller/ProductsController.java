@@ -15,7 +15,7 @@ public class ProductsController {
     private ProductsService prodServ;
 
     @GetMapping("/{code}")
-    public Products findProductByCode(@PathVariable Long code) {
+    public Products findProductByCode(@PathVariable("code") Long code) {
         return prodServ.findProductByCode(code);
     }
 
