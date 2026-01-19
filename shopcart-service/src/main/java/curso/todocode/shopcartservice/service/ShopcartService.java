@@ -18,6 +18,8 @@ public class ShopcartService implements IShopcartService {
     @Autowired
     private IProductsAPI productsAPI;
 
+    private Shopcarts shopcart =  new Shopcarts();
+
     @Override
     public List<Shopcarts> findAllShopcarts() {
         return shopRepo.findAll();
@@ -30,18 +32,11 @@ public class ShopcartService implements IShopcartService {
 
     @Override
     public Shopcarts saveShopcart(List<Long> prodCodes) {
-        Shopcarts shopcart = new Shopcarts();
-        ProductsDTO productsDTO;
-        Double price= 0.0;
+        //Shopcarts shopcart = new Shopcarts();
 
         shopcart.setProdCodes(prodCodes);
+        shopcart.setTotalPrice(calculateTotalPrice(prodCodes));
 
-        for(Long proCo : shopcart.getProdCodes()) {
-            productsDTO = productsAPI.findProductByCode(proCo);
-            price = productsDTO.getPrice() + price;
-
-        }
-        shopcart.setTotalPrice(price);
         shopRepo.save(shopcart);
 
         return shopcart;
@@ -49,20 +44,56 @@ public class ShopcartService implements IShopcartService {
 
     @Override
     public Shopcarts editShopcart(Long id, List<Long> prodCodes) {
-        Shopcarts shopcart = shopRepo.findById(id).orElse(null);
-        Double price= 0.0;
+        this.shopcart = shopRepo.findById(id).orElse(null);
 
         if (shopcart != null) {
             shopcart.setProdCodes(prodCodes);
 
-            for(Long proCo : shopcart.getProdCodes()) {
-                price = productsAPI.findProductByCode(proCo).getPrice() + price;
-            }
+            shopcart.setTotalPrice(calculateTotalPrice(prodCodes));
 
-            shopcart.setTotalPrice(price);
             shopRepo.save(shopcart);
         }
 
         return shopcart;
+    }
+
+    @Override
+    public Shopcarts addProductToShopcart(Long id, Long prodCode) {
+        this.shopcart = shopRepo.findById(id).orElse(null);
+
+        if(shopcart != null) {
+
+            shopcart.getProdCodes().add(prodCode);
+            shopcart.setTotalPrice(calculateTotalPrice(shopcart.getProdCodes()));
+
+            shopRepo.save(shopcart);
+        }
+
+        return shopcart;
+    }
+
+    @Override
+    public Shopcarts removeProductFromShopcart(Long id, Long prodCode) {
+        this.shopcart = shopRepo.findById(id).orElse(null);
+
+        if(shopcart != null) {
+
+            shopcart.getProdCodes().removeIf(codes -> codes.equals(prodCode));
+            shopcart.setTotalPrice(calculateTotalPrice(shopcart.getProdCodes()));
+
+            shopRepo.save(shopcart);
+        }
+        return shopcart;
+    }
+
+    private Double calculateTotalPrice(List<Long> prodCodes) {
+        double price = 0.0;
+
+        for(Long proCo : prodCodes) {
+
+            price = price + productsAPI.findProductByCode(proCo).getPrice();
+        }
+
+        return price;
     }
 }

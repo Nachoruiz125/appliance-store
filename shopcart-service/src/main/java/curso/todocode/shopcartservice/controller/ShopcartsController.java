@@ -21,12 +21,29 @@ public class ShopcartsController {
     }
 
     @GetMapping("/find/{id}")
-    public Shopcarts findShopcartById(@PathVariable("id") Long id) {
+    public Shopcarts findShopcartById(@PathVariable Long id) {
         return cartService.findShopcartById(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/new")
     public Shopcarts saveShopcart(@RequestBody List<Long> prodCodes) {
         return cartService.saveShopcart(prodCodes);
+    }
+
+    @PutMapping("/edit")
+    public Shopcarts updateShopcart(@RequestBody Long id, List<Long> prodCodes) {
+        return cartService.editShopcart(id, prodCodes);
+    }
+
+    @PutMapping("/add/{id}/{prodCode}")
+    public Shopcarts addProductToShopcart(@PathVariable Long id,
+                                          @PathVariable Long prodCode) {
+        return cartService.addProductToShopcart(id, prodCode);
+    }
+
+    @PutMapping("/remove/{id}/{prodCode}")
+    public Shopcarts removeProductFromShopcart(@PathVariable Long id,
+                                               @PathVariable Long prodCode) {
+        return cartService.removeProductFromShopcart(id, prodCode);
     }
 }

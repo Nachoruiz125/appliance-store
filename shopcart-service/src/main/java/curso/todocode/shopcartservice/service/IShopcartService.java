@@ -14,4 +14,8 @@ public interface IShopcartService {
 
     public Shopcarts editShopcart(Long id, List<Long>prodCodes);
 
+    public Shopcarts addProductToShopcart(Long id, Long prodCodes);
+
+    public Shopcarts removeProductFromShopcart(Long id, Long prodCodes);
+
 }
