@@ -86,12 +86,11 @@ public class ShopcartService implements IShopcartService {
         return shopcart;
     }
 
-    private Double calculateTotalPrice(List<Long> prodCodes) {
+    private double calculateTotalPrice(List<Long> prodCodes) {
         double price = 0.0;
 
         for(Long proCo : prodCodes) {
-
-            price = price + productsAPI.findProductByCode(proCo).getPrice();
+            price += productsAPI.findProductByCode(proCo).getPrice();
         }
 
         return price;
