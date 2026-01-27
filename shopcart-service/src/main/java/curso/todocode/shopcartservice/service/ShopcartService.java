@@ -1,13 +1,11 @@
 package curso.todocode.shopcartservice.service;
 
-import curso.todocode.shopcartservice.dto.ProductsDTO;
 import curso.todocode.shopcartservice.model.Shopcarts;
 import curso.todocode.shopcartservice.repository.IProductsAPI;
 import curso.todocode.shopcartservice.repository.IShopcartsRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -111,9 +109,5 @@ public class ShopcartService implements IShopcartService {
     public Shopcarts fallback(List<Long> prodCodes, Throwable throwable) {
         shopcart.setTotalPrice(-1.1);
         return shopcart;
-    }
-
-    public void createExeption() {
-        throw new RuntimeException("Prueba recillience y circuit breaker");
     }
 }
