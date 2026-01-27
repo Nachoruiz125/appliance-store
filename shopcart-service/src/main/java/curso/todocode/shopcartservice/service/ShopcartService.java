@@ -41,13 +41,14 @@ public class ShopcartService implements IShopcartService {
         shopcart.setProdCodes(prodCodes);
         shopcart.setTotalPrice(calculateTotalPrice(prodCodes));
 
-        //createExeption();
         shopRepo.save(shopcart);
 
         return shopcart;
     }
 
     @Override
+    @CircuitBreaker(name = "products-service", fallbackMethod = "fallback")
+    @Retry(name = "products-service-retry")
     public Shopcarts editShopcart(Long id, List<Long> prodCodes) {
         this.shopcart = shopRepo.findById(id).orElse(null);
 
@@ -63,6 +64,8 @@ public class ShopcartService implements IShopcartService {
     }
 
     @Override
+    @CircuitBreaker(name = "products-service", fallbackMethod = "fallback")
+    @Retry(name = "products-service-retry")
     public Shopcarts addProductToShopcart(Long id, Long prodCode) {
         this.shopcart = shopRepo.findById(id).orElse(null);
 
@@ -78,6 +81,8 @@ public class ShopcartService implements IShopcartService {
     }
 
     @Override
+    @CircuitBreaker(name = "products-service", fallbackMethod = "fallback")
+    @Retry(name = "products-service-retry")
     public Shopcarts removeProductFromShopcart(Long id, Long prodCode) {
         this.shopcart = shopRepo.findById(id).orElse(null);
 
@@ -91,8 +96,8 @@ public class ShopcartService implements IShopcartService {
         return shopcart;
     }
 
-
-    private double calculateTotalPrice(List<Long> prodCodes) {
+    @Override
+    public double calculateTotalPrice(List<Long> prodCodes) {
         double price = 0.0;
 
         for(Long proCo : prodCodes) {
@@ -103,9 +108,9 @@ public class ShopcartService implements IShopcartService {
         return price;
     }
 
-    public double fallback(List<Long> prodCodes, Throwable throwable) {
-        double error= -1.1;
-        return error;
+    public Shopcarts fallback(List<Long> prodCodes, Throwable throwable) {
+        shopcart.setTotalPrice(-1.1);
+        return shopcart;
     }
 
     public void createExeption() {

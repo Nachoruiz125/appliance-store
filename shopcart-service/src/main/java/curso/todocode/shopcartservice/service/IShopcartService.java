@@ -18,4 +18,6 @@ public interface IShopcartService {
 
     public Shopcarts removeProductFromShopcart(Long id, Long prodCodes);
 
+    public double calculateTotalPrice(List<Long> prodCodes);
+
 }
