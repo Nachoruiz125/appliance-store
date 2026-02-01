@@ -10,7 +10,7 @@
     </parent>
     <groupId>curso.todocode</groupId>
     <artifactId>sales-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <name>ventas-service</name>
     <description>ventas-service</description>
     <url/>
