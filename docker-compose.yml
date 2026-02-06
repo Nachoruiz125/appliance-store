@@ -15,7 +15,7 @@ services:
     networks:
       - 'appliance-network'
     depends_on:
-      - eureka-server
+      - api-gateway
 
   api-gateway:
     build: api-gateway
@@ -26,6 +26,11 @@ services:
       - 'appliance-network'
     depends_on:
       - eureka-server
+    environment: 
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
 
   products-service:
     build: products-service
@@ -34,8 +39,13 @@ services:
       - "8082:8082"
     networks:
       - 'appliance-network'
+    environment: 
+      DB_HOST: ${DB_HOST} 
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER} 
+      DB_PASS: ${DB_PASS}
     depends_on:
-      - eureka-server
+      - config-server
   
   sales-service:
     build: sales-service
@@ -44,8 +54,13 @@ services:
       - "8084:8084"
     networks:
       - 'appliance-network'
+    environment: 
+      DB_HOST: ${DB_HOST} 
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER} 
+      DB_PASS: ${DB_PASS}
     depends_on:
-      - eureka-server
+      - config-server
   
   shopcart-service:
     build: shopcart-service
@@ -54,8 +69,13 @@ services:
       - "8086:8086"
     networks:
       - 'appliance-network'
+    environment: 
+      DB_HOST: ${DB_HOST} 
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER} 
+      DB_PASS: ${DB_PASS}
     depends_on:
-      - eureka-server
+      - config-server
         
 networks:
   appliance-network:
