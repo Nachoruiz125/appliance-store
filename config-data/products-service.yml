@@ -8,9 +8,9 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
 
   datasource:
-    url: jdbc:mysql://host.docker.internal:3306/posts_service?serverTimezone=UTC
-    username: root
-    password: password
+    url: jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?serverTimezone=UTC
+    username: ${DB_USER}
+    password: ${DB_PASS}
 
 server:
   port: 8082

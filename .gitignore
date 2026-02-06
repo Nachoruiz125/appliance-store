@@ -1,0 +1,20 @@
+# Archivos sensibles
+.env
+
+# Maven
+target/
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+*.swp
+
+# IntelliJ / VSCode
+.idea/
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

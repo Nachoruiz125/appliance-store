@@ -3,7 +3,6 @@ package curso.todocode.productsservice.service;
 import curso.todocode.productsservice.model.Products;
 import curso.todocode.productsservice.repository.IProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class ProductsService implements IProductsService{
     @Override
     public List<Products> listProducts() {
 
-        System.out.println(System.getenv("DB_USER") + System.getenv("DBPAS"));
         return prodRepo.findAll();
     }
 
